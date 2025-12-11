@@ -1,0 +1,6 @@
+variable_name ,description
+ts,total_solids 
+vs,volatile_ solids 
+COD,chemical_oxygen_demand
+FS,faecal_sludge 
+WMC,waste_management_center 
