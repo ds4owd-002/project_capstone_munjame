@@ -6,4 +6,37 @@ editor: visual
 
 ```{r}
 library(tidyverse)
+library(here)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+library(gt)
+```
+
+```{r}
+
+raw_data <- read_csv(here::here("data/raw/influent-data-2025.csv"))
+
+```
+
+```{r}
+
+processed_data <- raw_data |>
+  select(`Sample description`, `Total Solids (g/l or g/Kg)`, `Sludge Volume (ml/L)`, `Ammonium mg/l)`, `Temperature (oC)`, `COD mg/l)`) |>
+  filter(!is.na(`COD mg/l)`) & !is.na(`Total Solids (g/l or g/Kg)`) & !is.na(`Sludge Volume (ml/L)`) & !is.na(`Temperature (oC)`) & !is.na(`Ammonium mg/l)`)) |>
+  rename(influent_source = `Sample description`, 
+         ts = `Total Solids (g/l or g/Kg)`, 
+         ammonium = `Ammonium mg/l)`, 
+         temperature = `Temperature (oC)`, 
+         COD = `COD mg/l)`) |>
+  mutate(containment_type = case_when(
+       grepl("unlined", influent_source) ~ "unlined_latrine",
+       grepl("lined", tolower(influent_source)) ~ "lined_latrine",
+      grepl("septic", tolower(influent_source)) ~ "septic_tank",
+      TRUE ~ NA_character_  # Assign NA if no condition is met
+  ))
+
+write_csv(processed_data, here::here("data/processed/processed_influent_data.csv"))
+
 ```
