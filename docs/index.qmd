@@ -1,8 +1,33 @@
 ---
-title: "index.qmd"
-format: html
-editor: visual
+title: "My Capstone Project"
+date: today
+author:
+  name: "Mundrugo Sunday James"
+  orcid: "https://orcid.org/0009-0004-1558-1466"
+  email: "mundrugojms432@gmail.com"
+  affiliation:
+    name: "ETH Zurich"
+    url: "https://ethz.ch/de.html"
+format:
+  html:
+    toc: true
+    code-fold: true
+execute: 
+  echo: true
+  warning: false
+citation:
+  container-title: "My Blog"
+license: "CC BY"
+bibliography: references.bib
 ---
+
+# Introduction
+
+This report presents data collected from a faecal sludge treatment plant in Terego District, Uganda, during the month of June 2025. The dataset was generated through routine monitoring and operational activities at the facility, capturing key parameters related to faecal sludge management and treatment processes. The information was specifically compiled and structured for use in the openwashdata course, an open educational initiative aimed at promoting transparent, reproducible, and collaborative analysis in the water, sanitation, and hygiene (WASH) sector. 
+
+# Methods
+
+Data was collected from the operational records of the faecal sludge treatment plant in Terego District, Uganda, throughout Data were obtained from the daily operational logbooks of the faecal sludge treatment plant in Terego District, Uganda, covering the entire month of June 2025. Only influent faecal sludge characteristics and volumes were considered for this analysis; these were recorded by plant operators at the point of discharge from cesspool emptier trucks into the receiving chamber/screening area. Influent volume was measured using a calibrated flow meter or v-notch weir, while total solids, chemical oxygen demand (COD), and other parameters were determined through grab sampling and subsequent laboratory analysis following standard methods approved by the National Water and Sewerage Corporation (NWSC). The raw records were digitized, cleaned, and structured by the author to create the final dataset used for instructional purposes in the openwashdata course.
 
 ```{r}
 library(tidyverse)
@@ -40,3 +65,97 @@ processed_data <- raw_data |>
 write_csv(processed_data, here::here("data/processed/processed_influent_data.csv"))
 
 ```
+
+# Results
+
+```{r}
+#| fig-cap: Relationship between Total solids and Ammonium 
+#| label: fig-scatter_plot
+
+
+ggplot(processed_data, aes(x = ammonium , y = ts)) +
+  geom_point(aes(color = containment_type, shape = containment_type)) +
+  labs(title = "Scatter Plot of the relationship between total solids and ammonium ",
+       x = "Ammonium (mg/l)",
+       y = "Total Solids (g/l )") +
+  scale_color_colorblind()+
+  theme_minimal()
+
+```
+
+@fig-scatter_plot a scatter plot of total solids (TS) versus ammonium concentration clearly separates the three containment types, with lined latrines (red) exhibiting both the highest total solids (12,000–97,000 mg/L) and the highest ammonium levels (mostly 1,000–2,000 mg/L and above), reflecting prolonged anaerobic storage and minimal infiltration. Septic tank sludge (green) consistently shows the lowest values for both parameters (TS \< 2,000 mg/L and ammonium generally below 2,000 mg/L), consistent with regular emptying and dilution by greywater. Unlined latrines (blue) occupy an intermediate position, with one recorded delivery at approximately 2,800 mg/L TS and moderate ammonium, likely due to partial liquid loss into the surrounding soil. The strong positive correlation between TS and ammonium within the lined-latrine cluster underscores that both parameters increase with storage duration, making containment type a critical predictor of influent strength at the treatment plant. These results highlight the need for separate design considerations or pre-treatment strategies when managing high-strength lined-latrine sludge alongside much weaker septic tank emptings.
+
+```{r}
+#| fig-cap: Containment Types
+#| label: fig-contain
+long_data <- processed_data %>%
+  pivot_longer(cols = c(`Sludge Volume (ml/L)`, temperature, ammonium), 
+               names_to = "Metric", 
+               values_to = "Value")
+
+```
+
+```{r}
+#| fig-cap: Ammonium concentration by Containment Type 
+#| label: fig-box_plot
+ggplot(processed_data, aes(x = containment_type, y = ammonium, fill = containment_type)) +
+  geom_boxplot() +
+  labs(title = "Box Plots of Ammonium by Containment Type",
+       x = "Containment Type",
+       y = " Ammonium (mg/l)") +
+  scale_fill_brewer(palette = "Set3") +
+  theme_minimal()
+
+  
+```
+
+@fig-box_plot shows that ammonium concentrations in sludge from lined latrines are dramatically higher (median ≈ 1,800 mg/L, ranging up to \>2,500 mg/L) than from septic tanks (median ≈ 300 mg/L) or unlined latrines (very low, near zero). This stark difference reflects prolonged anaerobic storage with no infiltration in lined latrines, leading to much stronger, high-ammonium sludge compared to the regularly emptied and diluted septic tanks or permeable unlined latrines. The complete separation between the containment types highlights the critical need to consider source type when designing or operating faecal sludge treatment systems.
+
+```{r}
+processed_data <- processed_data %>%
+  mutate(
+    ts = as.numeric(ts), 
+    COD = as.numeric(COD), 
+    ammonium = as.numeric(ammonium)
+  )
+```
+
+```{r}
+#| label: tbl-influent
+#| tbl-cap: Influent Sludge Characteristics  by Containment Type.
+processed_data |> 
+  filter(!is.na(ts) & !is.na(COD) & !is.na(ammonium) ) |> 
+  group_by(containment_type) |>
+  summarise(n = n(),
+            mean_total_solids = mean(ts),
+    sd_total_solids = sd(ts),
+    mean_COD = mean(COD),
+    sd_COD = sd(COD),
+    mean_ammonium = mean(ammonium),
+    sd_ammonium = sd(ammonium)) |>
+  ungroup() |> 
+  gt() |> 
+  fmt_number(columns = c(mean_total_solids, sd_total_solids,mean_COD,sd_COD,mean_ammonium,sd_ammonium),
+             decimals = 1)
+
+
+```
+
+@tbl-influent reveals that ammonium and total solids (TS) concentrations are highest in sludge from lined latrines (mean TS 16.8 g/L), intermediate in septic tanks (mean TS 1.4 g/L), and lowest in unlined latrines. The markedly higher values in lined latrines result from prolonged storage under anaerobic conditions, during which microbial activity continuously converts organic nitrogen to ammonium and solids accumulate without infiltration losses. In contrast, unlined latrines exhibit very low concentrations due to leaching of liquids and soluble compounds into the surrounding soil, while septic tanks are regularly emptied and diluted by household wastewater. These large differences emphasize the need for source-specific management and treatment strategies,particularly robust solids separation and nitrogen removal processes to ensure efficient and reliable performance of the faecal sludge treatment plant.
+
+# Conclusion
+
+-   Lined latrines deliver by far the strongest sludge: highest total solids (mean \~16.8 g/L, up to \>90 g/L) and ammonium (median \~1,800 mg/L, up to \>2,500 mg/L) due to long anaerobic storage and no infiltration.
+-   Septic tank sludge is consistently weak and more uniform: low TS (\~1–2 g/L) and ammonium (\~200–400 mg/L) because of regular emptying and dilution with greywater. Unlined latrines show the lowest concentrations (TS and ammonium near or below septic-tank levels) due to leaching of liquids and nutrients into the soil.
+-   No overlap exists between lined-latrine values and the other two types, confirming extreme variability of incoming faecal sludge.
+-   Containment type is the dominant factor driving influent strength; treating all sludge the same way risks severe under-performance of the treatment plant, especially for solids separation and nitrogen removal.
+
+# References
+
+Please see the bibliography for all references used in this report.
+
+[@ggthemes]
+
+[@ggplot2]
+
+[@gtable]
