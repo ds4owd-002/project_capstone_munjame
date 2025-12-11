@@ -1,0 +1,24 @@
+﻿Sample description,Sample Code,Ammonium mg/l),Sludge Volume (ml/L),Temperature (oC),pH,Total Solids (g/l or g/Kg),Volitile Solids (g/l or g/Kg),COD mg/l)
+Influent- Septic tank,FS2504-0001,95.7,2,30.5,8.63,0.9,,458
+Influent- Lined pit latrine,FS2504-0002,"1,340",4,30.9,7.76,15.1,,"5,350"
+Influent- Lined pit latrine,FS2504-0003,805.1,40.3,28.3,7.91,18.15,1.65,-
+Influent- unlined pit latrine,FS2504-0004,176.3,4.5,28.1,7.49,2.8,-,320
+Influent- lined pit latrine,FS2504-0005,47.28,85,27.1,7.42,3.7,-,
+Septic tank,FS2504-0006,181.2,1.6,29.8,7.95,1.85,-,331
+Septic tank,FS2504-0007,484,15,28.3,7.89,1.4,-,"7,250"
+Septic tank,FS2504-0008,511.3,,29.5,7.63,-,-,-
+lined-schools,FS2504-0009,2243,0.8,29.7,7.81,21.1,,"2,160"
+lined pit latrine,FS2504-0010,124.4,200,28,7.48,5.5,,"2,770"
+Influent- Lined pit latrine,FS2504-0011,309,170,29,7.94,7,,"3,360"
+Influent- Lined pit latrine,FS2504-0012,2370,0.8,28.9,8,23.7,,410
+Influent- Lined pit latrine,FS2504-0013,314.2,0.6,28.7,8.68,,,657
+Influent- Lined pit latrine,FS2504-0014,113.3,0.7,28.5,8,,,131
+lined-schools,FS2504-0015,195,1.6,30.5,8.13,4.6,,959
+lined pit latrine,FS2504-0016,472,10.2,28.9,8.5,12,,"3,410"
+lined pit latrine,FS2504-0017,2596,17,30.5,7.8,12.2,,"3,950"
+Lined- school,FS2504-0018,"2,099",4.1,30.5,7.8,22.1,,502
+Lined- Residential,FS2504-0019,"2,266",1,30.1,7.8,9.7,,"3,430"
+Lined- Residential,FS2504-0020,150.1,60,28.4,7.3,3.3,,
+Lined- Residential,FS2504-0021,696,0.7,29.7,7.8,-,-,"1,060"
+lined-schools,FS2504-0022,116.7,0.5,28.6,8.76,-,,"2,050"
+Lined- WMC,FS2504-0023,53.18,10,29.4,7.37,2,,"1,087"

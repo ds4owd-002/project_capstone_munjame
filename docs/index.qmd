@@ -1,0 +1,9 @@
+---
+title: "index.qmd"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
