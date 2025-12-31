@@ -23,7 +23,7 @@ bibliography: references.bib
 
 # Introduction
 
-This report presents data collected from a faecal sludge treatment plant in Terego District, Uganda, during the month of June 2025. The dataset was generated through routine monitoring and operational activities at the facility, capturing key parameters related to faecal sludge management and treatment processes. The information was specifically compiled and structured for use in the openwashdata course, an open educational initiative aimed at promoting transparent, reproducible, and collaborative analysis in the water, sanitation, and hygiene (WASH) sector. 
+This report presents data collected from a faecal sludge treatment plant in Terego District, Uganda, during the month of June 2025. The dataset was generated through routine monitoring and operational activities at the facility, capturing key parameters related to faecal sludge management and treatment processes. The information was specifically compiled and structured for use in the openwashdata course, an open educational initiative aimed at promoting transparent, reproducible, and collaborative analysis in the water, sanitation, and hygiene (WASH) sector.
 
 # Methods
 
@@ -69,7 +69,7 @@ write_csv(processed_data, here::here("data/processed/processed_influent_data.csv
 # Results
 
 ```{r}
-#| fig-cap: Relationship between Total solids and Ammonium 
+#| fig-cap: Relationship between Total solids and Ammonium based on the category of containment 
 #| label: fig-scatter_plot
 
 
