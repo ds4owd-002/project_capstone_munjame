@@ -1,5 +1,5 @@
 ---
-title: "My Capstone Project"
+title: "Characterization of the Quality of Faecal Sludge received at treatment plant in Terego District, Uganda  "
 date: today
 author:
   name: "Mundrugo Sunday James"
